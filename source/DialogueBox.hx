@@ -386,8 +386,18 @@ class DialogueBox extends FlxAlphaSpriteGroup
 			dialogueStarted = true;
 		}
 
-		// Skip dialogue
-		if (PlayerSettings.player1.controls.BACK && dialogueStarted && !isEnding)
+		#if android
+                        var justTouched:Bool = false;
+
+		        for (touch in FlxG.touches.list)
+		        {
+			        if (touch.justPressed)
+			        {
+				        justTouched = true;
+			        }
+		        }
+		        #end
+		if (PlayerSettings.player1.controls.BACK #if android || justTouched #end && dialogueStarted && !isEnding)
 		{
 			isEnding = true;
 			PlayState.announceStart = false;

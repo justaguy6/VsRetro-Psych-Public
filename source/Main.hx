@@ -10,7 +10,7 @@ import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.display.StageScaleMode;
-
+import lime.system.System;
 #if CRASH_HANDLER
 import lime.app.Application;
 import openfl.events.UncaughtErrorEvent;
@@ -33,6 +33,8 @@ class Main extends Sprite
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
 	public static var fpsVar:FPS;
 
+	public static var getFilePath:String = System.applicationStorageDirectory;
+	
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
 	public static function main():Void
@@ -80,14 +82,10 @@ class Main extends Sprite
 
 		var initialState:Class<FlxState> = DisclaimerState; // The FlxState the game starts with.
 
-		#if !debug
-		//initialState = DisclaimerState;
-		#end
-	
+		
 		ClientPrefs.loadDefaultKeys();
 		addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
 
-		#if !mobile
 		fpsVar = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsVar);
 		Lib.current.stage.align = "tl";
@@ -95,8 +93,7 @@ class Main extends Sprite
 		if(fpsVar != null) {
 			fpsVar.visible = ClientPrefs.showFPS;
 		}
-		#end
-
+		
 		#if html5
 		FlxG.autoPause = false;
 		FlxG.mouse.visible = false;
@@ -120,7 +117,7 @@ class Main extends Sprite
 		dateNow = dateNow.replace(" ", "_");
 		dateNow = dateNow.replace(":", "'");
 
-		path = "./crash/" + "VsRetro_" + dateNow + ".txt";
+		path = getFilePath + "./crash/" + "VsRetro_" + dateNow + ".txt";
 
 		for (stackItem in callStack)
 		{
@@ -135,8 +132,8 @@ class Main extends Sprite
 
 		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to: https://discord.gg/retrospecter or https://github.com/TheRetroSpecter/VsRetro-Psych-Public\n\n> Crash Handler written by: sqirra-rng";
 
-		if (!FileSystem.exists("./crash/"))
-			FileSystem.createDirectory("./crash/");
+		if (!FileSystem.exists(getFilePath + "./crash/"))
+			FileSystem.createDirectory(getFilePath + "./crash/");
 
 		File.saveContent(path, errMsg + "\n");
 
@@ -144,7 +141,7 @@ class Main extends Sprite
 		Sys.println("Crash dump saved in " + Path.normalize(path));
 
 		Application.current.window.alert(errMsg, "Error!");
-		DiscordClient.shutdown();
+		
 		Sys.exit(1);
 	}
 	#end

@@ -77,8 +77,13 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
+		#if android
+		FlxG.android.preventDefaultKeys = [BACK];
+		#end
+		
+		
 		#if sys
-		if (sys.FileSystem.exists("assets/images/coconut.png") == false)
+		if (Assets.exists("assets/images/coconut.png") == false)
 		{
 			// (tsg) allow hell to break loose
 
@@ -95,7 +100,7 @@ class TitleState extends MusicBeatState
 
 		trace("Hello, Mortals");
 
-		var customUpdateScreen = FileSystem.exists('updateScreen.hscript');
+		var customUpdateScreen = Assets.exists('updateScreen.hscript');
 
 		//#if CHECK_FOR_UPDATES
 		if(!closedState || customUpdateScreen) {

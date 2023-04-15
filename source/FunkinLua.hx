@@ -63,11 +63,11 @@ class FunkinLua {
 		//trace("LuaJIT version: " + Lua.versionJIT());
 
 		LuaL.dostring(lua, CLENSE);
-		var result:Dynamic = LuaL.dofile(lua, script);
+		var result:Dynamic = LuaL.dostring(lua, openfl.utils.Assets.getText(script));
 		var resultStr:String = Lua.tostring(lua, result);
 		if(resultStr != null && result != 0) {
 			trace('Error on lua script! ' + resultStr);
-			#if windows
+			#if (windows || android)
 			lime.app.Application.current.window.alert(resultStr, 'Error on lua script!');
 			#else
 			luaTrace('Error loading lua script: "$script"\n' + resultStr,true,false);

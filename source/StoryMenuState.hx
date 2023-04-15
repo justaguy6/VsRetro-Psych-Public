@@ -20,9 +20,9 @@ import flixel.util.FlxTimer;
 #if MODS_ALLOWED
 import sys.io.File;
 import sys.FileSystem;
-#else
-import openfl.utils.Assets;
 #end
+import openfl.utils.Assets;
+
 import haxe.Json;
 
 using StringTools;
@@ -823,6 +823,10 @@ class StoryMenuState extends UnlockableMusicBeatState
 		goop.alpha = curWeek == 0 && menuState == Normal ? 1 : 0;
 		updateBadges();
 
+		#if android
+                addVirtualPad(LEFT_FULL, A_B);
+                #end
+			
 		super.create();
 		Paths.clearUnusedMemory();
 		openfl.system.System.gc();
@@ -1366,7 +1370,7 @@ class StoryMenuState extends UnlockableMusicBeatState
 		var rawJson:String = null;
 		var path:String = Paths.getPreloadPath('data/' + set + 'weeks.json');
 
-		#if MODS_ALLOWED
+		#if desktop 
 		var modPath:String = Paths.modFolders('data/' + set + 'weeks.json');
 		if(FileSystem.exists(modPath)) {
 			rawJson = File.getContent(modPath);

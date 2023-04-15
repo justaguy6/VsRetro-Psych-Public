@@ -1,3 +1,4 @@
+#if windows 
 @:headerCode('
 #include "windows.h"
 #include "winuser.h"
@@ -10,3 +11,4 @@ class NoGhost {
 	')
 	public static function disable():Void {}
 }
+#end

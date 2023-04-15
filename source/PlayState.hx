@@ -752,43 +752,26 @@ class PlayState extends MusicBeatState
 		add(luaDebugGroup);
 		#end
 
+		// "GLOBAL" SCRIPTS
 		#if LUA_ALLOWED
-		var doPush:Bool = false;
-
-		if(openfl.utils.Assets.exists("assets/scripts/" + "script.lua"))
-		{
-			var path = Paths.luaAsset("scripts/" + "script");
-			var luaFile = openfl.Assets.getBytes(path);
-
-			FileSystem.createDirectory(Main.path + "assets/scripts");
-			FileSystem.createDirectory(Main.path + "assets/scripts/");
-			
-			File.saveBytes(Paths.lua("scripts/" + "script"), luaFile);
-			doPush = true;
+		var doPush:Bool = false; 
+		if (OpenFlAssets.exists('assets/scripts/script.lua')) {
+		  doPush = true;
 		}
+		
 		if(doPush && !ClientPrefs.optimize)
-			luaArray.push(new FunkinLua(Paths.lua("scripts/" + "script")));
+		luaArray.push(new FunkinLua('assets/scripts/script.lua'));
 		#end
 
 		#if LUA_ALLOWED
-		var doPush:Bool = false;
-
-		if(openfl.utils.Assets.exists("assets/stages/" + curStage + ".lua"))
-		{
-			var path = Paths.luaAsset("stages/" + curStage);
-			var luaFile = openfl.Assets.getBytes(path);
-
-			FileSystem.createDirectory(Main.path + "assets/stages");
-			FileSystem.createDirectory(Main.path + "assets/stages/");
-
-			File.saveBytes(Paths.lua("stages/" + curStage), luaFile);
-
-			doPush = true;
+		var doPush:Bool = false; 
+		if (OpenFlAssets.exists('assets/stages/' + curStage + '.lua')) {
+		  doPush = true;
 		}
+		
 		if(doPush && !ClientPrefs.optimize)
-			luaArray.push(new FunkinLua(Paths.lua("stages/" + curStage)));
-
-                #end
+		luaArray.push(new FunkinLua('assets/stages/' + curStage + '.lua'));
+		#end
 
 		if (!stageData.hide_opponent2)
 			SONG2 = Song.loadFromJson(formattedSong + Difficulty.getDifficultyFilePath(storyDifficulty) + '-2', formattedSong);
@@ -1278,15 +1261,18 @@ class PlayState extends MusicBeatState
                 #end
 			
 		startingSong = true;
-
 		
+		// SONG SPECIFIC SCRIPTS
 		#if LUA_ALLOWED
 		var doPush:Bool = false;
 		if (OpenFlAssets.exists('assets/data/' + Paths.formatToSongPath(SONG.song) + '/script.lua')) {
 		  doPush = true;
 		}
 		
-
+		if(doPush)
+		luaArray.push(new FunkinLua('assets/data/' + Paths.formatToSongPath(SONG.song) + '/script.lua'));
+		#end
+		
 		hasIceNotes = noteTypeMap.exists('iceNote');
 
 		WindowTitle.progress(90);

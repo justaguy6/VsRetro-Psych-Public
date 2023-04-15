@@ -202,6 +202,10 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		boyfriend.playAnim('firstDeath' + animSuffix);
 
+		#if android
+                addVirtualPad(NONE, A_B);
+                #end
+		
 		if(shouldLoadGameOverDialogue()) {
 			hintText = new FlxFixedTypeText(150, 560, 1050, "", 50);
 			hintText.setFormat(Paths.font('aApiNyala.ttf'), 50, FlxColor.fromRGB(42, 136, 164), LEFT);

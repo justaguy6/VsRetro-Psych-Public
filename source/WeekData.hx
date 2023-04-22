@@ -152,7 +152,7 @@ class WeekData {
 					if(week != null) {
 						var weekFile:WeekData = new WeekData(week, sexList[i]);
 
-						#if MODS_ALLOWED
+						#if desktop 
 						if(j >= originalLength) {
 							weekFile.folder = directories[j].substring(Paths.mods().length, directories[j].length-1);
 						}
@@ -255,7 +255,7 @@ class WeekData {
 					if(week != null) {
 						var weekFile:WeekData = new WeekData(week, sexList[i]);
 
-						#if MODS_ALLOWED
+						#if desktop 
 						if(j >= originalLength) {
 							weekFile.folder = directories[j].substring(Paths.mods().length, directories[j].length-1);
 						}
@@ -307,7 +307,7 @@ class WeekData {
 				var weekFile:WeekData = new WeekData(week, weekToCheck);
 				if(i >= originalLength)
 				{
-					#if MODS_ALLOWED
+					#if desktop 
 					weekFile.folder = directory.substring(Paths.mods().length, directory.length-1);
 					#end
 				}
